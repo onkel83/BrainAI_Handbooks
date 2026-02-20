@@ -1,3 +1,5 @@
+
+
 | BrainAI UG (haftungsbeschränkt) | **Handbücher** | 🟢 **PUBLIC CLASSIFICATION** |
 | :--- | :---: | ---: |
 | Core Architecture & Development | Whitepaper / Konzept | Access Level: Public / Beta |
