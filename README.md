@@ -32,8 +32,8 @@ Aufgrund der Einstufung dieser Technologie unter die **Dual-Use-Exportbestimmung
 
 ### 🔐 Core Cryptography
 * **[LOCKED]** ProED Core Handbuch (Statisches Speichermanagement)
-* **[LOCKED]** ProHash Referenz (Entropie-Prinzipien)
-* **[LOCKED]** ProKey Mutationslogik (256-Bit Rolling Key)
+* **[ProHash](./docs/ProHash.md)** ProHash Referenz (Entropie-Prinzipien)
+* **[ProKey](./docs/ProKey.md)** ProKey Mutationslogik (256-Bit Rolling Key)
 
 ### 🛡️ Hardware & Ring 0
 * **[LOCKED]** ProTU (Process Trust Unit) - Compliance Reporting (.brep)
@@ -41,7 +41,7 @@ Aufgrund der Einstufung dieser Technologie unter die **Dual-Use-Exportbestimmung
 
 ### 🔌 Integration & Server
 * **[LOCKED]** ProED Integrationsleitfaden (C99 Standard)
-* **[LOCKED]** WASM & Server-Sicherheit (COOP/COEP Headers)
+* **[WASM](./docs/wasm_serverconfig.md)** WASM & Server-Sicherheit (COOP/COEP Headers)
 
 ---
 
