@@ -61,7 +61,7 @@ jobs:
                 DOC_SUBTITLE="WASM & CLOUD DEPLOYMENT SPEC"
                 ;;
               "ProKey") 
-                DOC_TITLE="Hardware Entropy Data Sheet"
+                DOC_TITLE="Hardware Entropy SDK Manual"
                 DOC_SUBTITLE="TRNG & QUANTUM-RESISTANT ENTROPY"
                 ;;
               *) 
