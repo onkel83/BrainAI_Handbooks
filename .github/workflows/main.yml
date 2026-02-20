@@ -23,12 +23,12 @@ jobs:
           args: >-
             -c "for f in docs/*.md; do 
               filename=$(basename \"$f\" .md);
-              echo \"Building: $filename\";
+              echo \"Rendering $filename...\";
               pandoc \"$f\" 
               --standalone 
-              --pdf-engine=xelatex 
-              -V lang=de-DE 
+              --pdf-engine=lualatex 
               -V mainfont='DejaVu Sans' 
+              -V monofont='DejaVu Sans Mono' 
               --resource-path=docs 
               -o \"build/${filename}.pdf\"; 
             done"
