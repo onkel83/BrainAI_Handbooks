@@ -26,9 +26,7 @@
 
 ---
 
-<div align="center">
-  🌐 <strong>Select Language / Sprache wählen:</strong> <br>
-  <a href="#de_de">🇩🇪 Deutsch (de_de)</a> | <a href="#int_eng">🇬🇧 English (int_eng)</a>
+<a href="#de_de">🇩🇪 Deutsch (de_de)</a> | <a href="#int_eng">🇬🇧 English (int_eng)</a>
 </div>
 
 ---
