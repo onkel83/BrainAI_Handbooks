@@ -2,7 +2,57 @@
 | :--- | :---: | ---: |
 | Core Architecture & Development | Whitepaper / Konzept | Access Level: Public / Beta |
 
+---
 
+<div align="center">
+  🌐 <strong>Select Language / Sprache wählen:</strong> <br>
+  <a href="#de_de">🇩🇪 Deutsch (de_de)</a> | <a href="#int_eng">🇬🇧 English (int_eng)</a>
+</div>
+
+---
+
+<a id="de_de"></a>
+## ⚠️ SICHERHEITS- & EXPORTHINWEIS
+
+**Dieses Repository dient als öffentlicher Dokumentations-Hub für die BrainAI-Sicherheitsarchitektur.**
+
+Der zugrunde liegende Quellcode von **ProEDC (production - Enhanced Deterministic Cryptography)** und **ProTU (Process Trust Unit)** arbeitet auf Ring-0-Ebene (Kernel-Level) und integriert eine hoch-entropische Chaos-Logik (256-Bit-Mutation). 
+
+Aufgrund der Einstufung dieser Technologie unter die **Dual-Use-Exportbestimmungen** wird der gesamte Dokumentations-Stack derzeit auf die rechtliche Freigabe für die Öffentlichkeit geprüft.
+
+**Der unbefugte Export, das Reverse Engineering oder die Weitergabe der Kern-Binärtechnologie ist strengstens untersagt.**
+
+---
+
+## 📚 Referenzbibliothek (Index)
+
+*Status: Wartet auf Freigabe für den öffentlichen Zugriff.*
+
+### 🔐 Core Cryptography
+* **[LOCKED]** ProED Core Handbuch (Statisches Speichermanagement)
+* **[LOCKED]** ProHash Referenz (Entropie-Prinzipien)
+* **[LOCKED]** ProKey Mutationslogik (256-Bit Rolling Key)
+
+### 🛡️ Hardware & Ring 0
+* **[LOCKED]** ProTU (Process Trust Unit) - Compliance Reporting (.brep)
+* **[LOCKED]** ProKM (Entropie-Quelle)
+
+### 🔌 Integration & Server
+* **[LOCKED]** ProED Integrationsleitfaden (C99 Standard)
+* **[LOCKED]** WASM & Server-Sicherheit (COOP/COEP Headers)
+
+---
+
+## 🚧 STATUS: INITIALISIERUNG 🚧
+
+**Initialisierungssequenz gestartet.** Dokumentationsmodule werden sequenziell entschlüsselt und hochgeladen.
+System-Updates folgen.
+
+<br><br>
+
+---
+
+<a id="int_eng"></a>
 ## ⚠️ SECURITY & EXPORT NOTICE
 
 **This repository serves as the public documentation hub for the BrainAI security architecture.**
@@ -26,7 +76,7 @@ Due to the classification of this technology under **Dual-Use Export Regulations
 
 ### 🛡️ Hardware & Ring 0
 * **[LOCKED]** ProTU (Process Trust Unit) - Compliance Reporting (.brep)
-* **[LOCKED]** ProKM (Entropy Quelle)
+* **[LOCKED]** ProKM (Entropy Source)
 
 ### 🔌 Integration & Server
 * **[LOCKED]** ProED Integration Guide (C99 Standard)
