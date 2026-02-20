@@ -24,12 +24,12 @@ jobs:
             -c "for f in docs/*.md; do 
               filename=$(basename \"$f\" .md);
               echo \"Rendering $filename...\";
-              pandoc \"$f\" 
-              --standalone 
-              --pdf-engine=lualatex 
-              -V mainfont='DejaVu Sans' 
-              -V monofont='DejaVu Sans Mono' 
-              --resource-path=docs 
+              pandoc \"$f\" \
+              --standalone \
+              --pdf-engine=lualatex \
+              -V mainfont='DejaVu Sans' \
+              -V monofont='DejaVu Sans Mono' \
+              --resource-path=docs \
               -o \"build/${filename}.pdf\"; 
             done"
 
