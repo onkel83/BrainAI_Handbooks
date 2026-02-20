@@ -1,0 +1,30 @@
+name: BrainAI Industrial PDF Build
+on: 
+  push:
+    paths:
+      - 'docs/**' # Triggert nur, wenn sich in docs etwas ändert
+
+jobs:
+  build-pdfs:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Render All MD to PDF
+        uses: docker://pandoc/latex:latest
+        with:
+          args: >-
+            --standalone
+            --from=markdown
+            --to=pdf
+            --pdf-engine=xelatex
+            --resource-path=docs
+            --output-dir=build
+            docs/*.md
+
+      - name: Archive Production Docs
+        uses: actions/upload-artifact@v4
+        with:
+          name: ProEDC-Manuals-Final
+          path: build/*.pdf
