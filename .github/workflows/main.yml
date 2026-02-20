@@ -26,13 +26,13 @@ jobs:
 
       - name: Render Industrial PDFs
         run: |
-          # Wir loopen durch alle MDs und wenden das CSS an
+          # Wir nutzen die korrekte CLI-Syntax: md-to-pdf [input] --output [output]
           for f in docs/*.md; do
             filename=$(basename "$f" .md)
             echo "Rendering $filename..."
             md-to-pdf "$f" \
               --config-file docs/config.js \
-              --output-path "build/${filename}.pdf"
+              --output "build/${filename}.pdf"
           done
 
       - name: Archive Production Docs
