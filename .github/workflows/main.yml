@@ -18,21 +18,34 @@ jobs:
         with:
           node-version: '20'
 
-      - name: Install md-to-pdf
-        run: npm install -g md-to-pdf
+      - name: Install Industrial Rendering Stack
+        run: |
+          npm install -g md-to-pdf
+          # Wir stellen sicher, dass alle Abhängigkeiten für Chromium da sind
+          sudo apt-get update
+          sudo apt-get install -y libgbm-dev
 
       - name: Create Build Directory
         run: mkdir -p build
 
       - name: Render Industrial PDFs
         run: |
-          # Wir nutzen die korrekte CLI-Syntax: md-to-pdf [input] --output [output]
           for f in docs/*.md; do
             filename=$(basename "$f" .md)
             echo "Rendering $filename..."
-            md-to-pdf "$f" \
-              --config-file docs/config.js \
-              --output "build/${filename}.pdf"
+            
+            # Wir führen md-to-pdf ohne das problematische Output-Flag aus
+            # Das Tool generiert dann automatisch docs/filename.pdf
+            md-to-pdf "$f" --config-file docs/config.js
+            
+            # Wir verschieben das Resultat in den Build-Ordner
+            if [ -f "docs/${filename}.pdf" ]; then
+              mv "docs/${filename}.pdf" "build/"
+              echo "Successfully moved ${filename}.pdf to build/"
+            else
+              echo "Error: ${filename}.pdf was not generated."
+              exit 1
+            fi
           done
 
       - name: Archive Production Docs
