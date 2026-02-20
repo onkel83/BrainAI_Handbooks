@@ -68,6 +68,10 @@ jobs:
                 DOC_TITLE="Software Hash API Reference"
                 DOC_SUBTITLE="DETERMINISTIC DATA INTEGRITY"
                 ;;
+                "ProHash_Hardware") 
+                DOC_TITLE="FPGA & ASIC IP Core"
+                DOC_SUBTITLE="HARDWARE ACCELERATED HASHING"
+                ;;
               *) 
                 DOC_TITLE="Technical Documentation"
                 DOC_SUBTITLE="PROEDC INDUSTRIAL SUITE"
