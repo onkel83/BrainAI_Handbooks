@@ -21,7 +21,6 @@ jobs:
       - name: Install Industrial Rendering Stack
         run: |
           npm install -g md-to-pdf
-          # Wir installieren nur die absolut notwendigen Bibliotheken für Chromium
           sudo apt-get update
           sudo apt-get install -y libgbm1 libasound2t64 || sudo apt-get install -y libasound2
 
@@ -48,7 +47,7 @@ jobs:
           for f in docs/*.md; do
             filename=$(basename "$f" .md)
             
-            # 2. Dynamische Titel-Zuweisung basierend auf dem Dateinamen
+            # 2. Titel-Zuweisung (Frischer Speicher für jede Datei)
             case "$filename" in
               "Lizenz") 
                 DOC_TITLE="Master License Agreement (EULA)"
@@ -70,23 +69,24 @@ jobs:
 
             echo "Processing: $filename -> $DOC_TITLE"
 
-            # 3. Temporäre Arbeitskopie erstellen (Original bleibt sauber)
+            # 3. Frische Kopie der Originaldatei ziehen (dein "Zwischenspeicher")
             cp "$f" "working_${filename}.md"
 
-            # 4. Platzhalter im Markdown ersetzen# Dieser Befehl sucht nach DOKUMENT-TYP und ersetzt ALLES bis zum nächsten Tabellen-Trenner 
-            # Dieser Befehl sucht nach DOKUMENT-TYP und ersetzt ALLES bis zum nächsten Tabellen-Trenner |
-            sed -i -E "s/(DOKUMENT-?TYP:)[^|]*/\1 $DOC_TITLE /gI" "working_${filename}.md"
+            # 4. PLATZHALTER ERSETZEN (Die unfehlbare Methode)
+            # Wir suchen nur nach dem String "HIER EINSETZEN" - das ist am sichersten.
+            sed -i "s/HIER EINSETZEN/$DOC_TITLE/g" "working_${filename}.md"
             
-            # Das gleiche für den Untertitel (Engineering Division etc.)
-            sed -i -E "s/ENTERPRISE DEFENSE CORE\s*\|\s*ENGINEERING DIVISION/$DOC_SUBTITLE/gI" "working_${filename}.md"
+            # Wir suchen nach dem Standard-Untertitel vom Cover
+            sed -i "s/Enterprise Defense Core | Engineering Division/$DOC_SUBTITLE/g" "working_${filename}.md"
 
             # 5. Rendering der manipulierten Datei
             md-to-pdf "working_${filename}.md" --config-file runner-config.js
             
-            # 6. Ergebnis sichern
+            # 6. Ergebnis sichern und Arbeitskopie löschen
             mv "working_${filename}.pdf" "build/${filename}.pdf"
             rm "working_${filename}.md"
           done
+
       - name: Archive Production Docs
         uses: actions/upload-artifact@v4
         with:
