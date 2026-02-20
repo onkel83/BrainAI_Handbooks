@@ -13,15 +13,27 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v4
 
-      - name: Render Industrial PDFs
-        uses: marcbachmann/docs-to-pdf@v1.1.0
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
         with:
-          input_dir: docs
-          output_dir: build
-          # Hier binden wir das CSS ein
-          style: docs/style.css
-          # Puppeteer Optionen für saubere Renderings
-          pdf_options: '{"format": "A4", "printBackground": true, "displayHeaderFooter": true}'
+          node-version: '20'
+
+      - name: Install md-to-pdf
+        run: npm install -g md-to-pdf
+
+      - name: Create Build Directory
+        run: mkdir -p build
+
+      - name: Render Industrial PDFs
+        run: |
+          # Wir loopen durch alle MDs und wenden das CSS an
+          for f in docs/*.md; do
+            filename=$(basename "$f" .md)
+            echo "Rendering $filename..."
+            md-to-pdf "$f" \
+              --config-file docs/config.js \
+              --output-path "build/${filename}.pdf"
+          done
 
       - name: Archive Production Docs
         uses: actions/upload-artifact@v4
