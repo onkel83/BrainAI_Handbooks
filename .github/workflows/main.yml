@@ -30,7 +30,7 @@ jobs:
 
       - name: Render Industrial PDFs
         run: |
-          # Dynamische Erstellung der stabilen Runner-Config
+          # 1. Stabile Grund-Config erstellen
           cat <<EOF > runner-config.js
           module.exports = {
             stylesheet: './docs/style.css',
@@ -40,7 +40,6 @@ jobs:
               printBackground: true
             },
             launch_options: {
-              executablePath: '/usr/bin/google-chrome',
               args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-gpu']
             }
           };
@@ -48,23 +47,44 @@ jobs:
 
           for f in docs/*.md; do
             filename=$(basename "$f" .md)
-            echo "Processing: $filename"
             
-            # Rendering-Prozess
-            md-to-pdf "$f" --config-file runner-config.js || true
-            
-            # Flexible Pfad-Suche für das Resultat
-            if [ -f "docs/${filename}.pdf" ]; then
-              mv "docs/${filename}.pdf" "build/"
-            elif [ -f "${filename}.pdf" ]; then
-              mv "${filename}.pdf" "build/"
-            else
-              echo "Build failed for $filename"
-              exit 1
-            fi
-            echo "Success: build/${filename}.pdf"
-          done
+            # 2. Dynamische Titel-Zuweisung basierend auf dem Dateinamen
+            case "$filename" in
+              "Lizenz") 
+                DOC_TITLE="Master License Agreement (EULA)"
+                DOC_SUBTITLE="LEGAL & COMPLIANCE SPECIFICATION"
+                ;;
+              "wasm_serverconfig") 
+                DOC_TITLE="Server Integration & Hardening Guide"
+                DOC_SUBTITLE="WASM & CLOUD DEPLOYMENT SPEC"
+                ;;
+              "ProKey") 
+                DOC_TITLE="Hardware Entropy Data Sheet"
+                DOC_SUBTITLE="TRNG & QUANTUM-RESISTANT ENTROPY"
+                ;;
+              *) 
+                DOC_TITLE="Technical Documentation"
+                DOC_SUBTITLE="PROEDC INDUSTRIAL SUITE"
+                ;;
+            esac
 
+            echo "Processing: $filename -> $DOC_TITLE"
+
+            # 3. Temporäre Arbeitskopie erstellen (Original bleibt sauber)
+            cp "$f" "working_${filename}.md"
+
+            # 4. Platzhalter im Markdown ersetzen
+            # Wir ersetzen 'HIER EINSETZEN' in der Tabelle und den Untertitel auf dem Cover
+            sed -i "s/DOKUMENT-TYP: HIER EINSETZEN/$DOC_TITLE/g" "working_${filename}.md"
+            sed -i "s/ENTERPRISE DEFENSE CORE | ENGINEERING DIVISION/$DOC_SUBTITLE/g" "working_${filename}.md"
+
+            # 5. Rendering der manipulierten Datei
+            md-to-pdf "working_${filename}.md" --config-file runner-config.js
+            
+            # 6. Ergebnis sichern
+            mv "working_${filename}.pdf" "build/${filename}.pdf"
+            rm "working_${filename}.md"
+          done
       - name: Archive Production Docs
         uses: actions/upload-artifact@v4
         with:
