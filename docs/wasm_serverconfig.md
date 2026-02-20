@@ -1,19 +1,3 @@
-<div style="height: 85vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; font-family: 'Inter', sans-serif;">
-  <h1 style="font-size: 50px; margin-bottom: 0; letter-spacing: -1px;">ProEDC Industrial Suite</h1>
-  <p style="font-size: 22px; color: #555; margin-top: 10px;">Enterprise Defense Core | Engineering Division</p>
-  <div style="margin-top: 120px; border-top: 1px solid #ddd; width: 60%; padding-top: 20px;">
-    <strong>PRODUKT-DOKUMENTATION</strong><br>
-    <span style="color: #666;">BrainAI UG (haftungsbeschränkt)</span>
-  </div>
-</div>
-
-<div style="page-break-after: always;"></div>
-
-| BrainAI UG (haftungsbeschränkt) | **PROEDC INDUSTRIAL** | 🟢 **PUBLIC CLASSIFICATION** |
-| :--- | :---: | ---: |
-| Core Architecture & Development | **DOKUMENT-TYP: HIER EINSETZEN** | Access Level: Public / Beta |
-
----
 
 ## Revisionshistorie / Revision History
 
