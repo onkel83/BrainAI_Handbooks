@@ -72,3 +72,6 @@ void generate_master_seed() {
 
 ---
 
+| © 2026 Sascha Köhne | ✉️ **Contact for KYC & Early Access:** [koehne83@googlemail.com](mailto:koehne83@googlemail.com) | 🛡️ **ProHash-Verified** |
+| --- | --- | --- |
+| System Architect | BrainAI UG (haftungsbeschränkt) | Deterministische Integrität |
