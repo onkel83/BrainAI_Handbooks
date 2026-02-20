@@ -19,16 +19,16 @@ jobs:
       - name: Render All MD to PDF
         uses: docker://pandoc/latex:latest
         with:
-          # Wir überschreiben den Standard-Einstiegspunkt des Containers
           entrypoint: /bin/sh
-          # Hier übergeben wir das eigentliche Script
           args: >-
             -c "for f in docs/*.md; do 
               filename=$(basename \"$f\" .md);
-              echo \"Rendering $filename...\";
+              echo \"Building: $filename\";
               pandoc \"$f\" 
               --standalone 
               --pdf-engine=xelatex 
+              -V lang=de-DE 
+              -V mainfont='DejaVu Sans' 
               --resource-path=docs 
               -o \"build/${filename}.pdf\"; 
             done"
