@@ -1,74 +1,57 @@
+
 ## Revisionshistorie / Revision History
 
 | Version | Datum | Autor | Status | Beschreibung |
 | :--- | :--- | :--- | :--- | :--- |
-| 1.0.0 | 01.12.2025 | S. Köhne | Release | Initialer SDK Entwurf |
-| 1.1.0 | 20.02.2026 | S. Köhne | Update | Implementierung RTR (Rolling the Random) & ProTU-Validierung |
+| 1.0.0 | 01.12.2025 | S. Köhne | Release | Initialer Entwurf |
+| 1.1.0 | 20.02.2026 | S. Köhne | Stable | Optimierte Entropie-Aggregation & ProTU-Support |
 
 <div style="page-break-after: always;"></div>
 
-## 1. Einführung
+## 1. Produktübersicht
+**ProKey** dient als zentrale „Root of Trust“ innerhalb der ProEDC Industrial Suite. In sicherheitskritischen Umgebungen ist die Qualität des Zufalls entscheidend für die Integrität der gesamten kryptografischen Kette. ProKey stellt sicher, dass generierte Schlüssel (Session-Keys, Seeds) ein Höchstmaß an Unvorhersehbarkeit aufweisen.
 
-**ProKey** ist der Industriestandard für die Erzeugung kryptografisch sicherer Zufallszahlen (CSPRNG) auf Embedded-Systemen und Hochsicherheits-Plattformen.
+## 2. Architektur: Multi-Source Aggregation
+Um eine stabile Entropie-Rate zu gewährleisten, nutzt ProKey ein hybrides Verfahren, das verschiedene systemnahe Entropie-Quellen kombiniert:
 
-Im Gegensatz zu herkömmlichen Pseudo-Zufallsgeneratoren (PRNGs), die deterministische Algorithmen verwenden, ist ProKey ein **True Random Number Generator (TRNG) Hybrid**. Er fusioniert physikalische Hardware-Effekte mit hochpräzisen Zeitmessungen und veredelt das Ergebnis mit der proprietären **RTR-Technologie** (Rolling the Random).
+* **Hardware-Integration:** Automatische Nutzung verfügbarer CPU-Hardware-Zufallsgeneratoren (TRNG).
+* **System-Dynamics:** Einbeziehung stochastischer Systemereignisse und hochpräziser Zeitstempel zur Anreicherung des Entropie-Pools.
+* **Proprietäres Post-Processing:** Das Rohmaterial wird durch ein internes Verfahren (RTR-Technologie) nachbearbeitet, um statistische Gleichverteilung zu garantieren und Bias-Effekte zu eliminieren.
 
-### Leistungsmerkmale
-* **Höchste Entropie:** Fusion aus Hardware-RNG, CPU-Jitter und Timing-Rauschen.
-* **RTR Whitening:** Entfernt statistische Auffälligkeiten und Bias aus der Hardware-Quelle.
-* **Variable Schlüssellängen:** Native Unterstützung für 128, 256, 512 und 1024 Bit Schlüssel.
-* **Zero-Allocation:** Arbeitet vollständig auf dem Stack (kein `malloc`/`free`).
 
-## 2. API-Referenz (C99)
 
-### ProKey_Generate
-Hauptfunktion zur Erzeugung von Entropie-Daten.
+## 3. Compliance & Validierung
+Die Verlässlichkeit von ProKey wird durch das **ProTU Framework** überwacht. 
+
+* **Echtzeit-Monitoring:** ProKey prüft während der Laufzeit die Qualität der Entropie-Quellen.
+* **Standard-Alignment:** Die internen Prozesse sind darauf ausgelegt, die statistischen Anforderungen moderner Industriestandards (orientiert an NIST SP 800-22) zu erfüllen.
+* **Zero-Persistence:** Es werden keine sensiblen Zwischenzustände dauerhaft im Speicher gehalten.
+
+<div style="page-break-after: always;"></div>
+
+## 4. API-Spezifikation (SDK)
+
+### 4.1 ProKey_Generate
+Die universelle Schnittstelle zur Generierung sicherer Zufallsdaten.
 
 ```c
 /**
- * @brief Generiert kryptografisch sichere Zufallsbits
- * @param buffer Zielpuffer für die Zufallsdaten
- * @param bits Gewünschte Länge (128, 256, 512, 1024)
+ * @brief Füllt einen Puffer mit kryptografisch sicherer Entropie.
+ * @param buffer Pointer auf den Zielspeicherbereich.
+ * @param length Anzahl der zu generierenden Bytes.
  */
-void ProKey_Generate(uint8_t* buffer, ProKey_Bits bits);
+PROKEY_API void ProKey_Generate(uint8_t* buffer, size_t length);
 
 ```
 
-## 3. Implementierungsbeispiele
+### 4.2 ProKey_Fill256Bit
 
-### Szenario A: Session-Key Generierung (256 Bit)
+Spezialisierter Aufruf für die Erzeugung von Standard-256-Bit-Schlüsseln (32 Bytes).
 
-```c
-#include "ProKey.h"
+## 5. Sicherheitshinweise für Integratoren
 
-void create_secure_session() {
-    uint8_t session_key[32]; // 256 Bit
-    ProKey_Generate(session_key, KEY_256_BIT);
-    // Schlüssel für ProED Verschlüsselung nutzen...
-}
-
-```
-
-### Szenario B: Langzeit-Seed (1024 Bit)
-
-```c
-#include "ProKey.h"
-
-void generate_master_seed() {
-    uint8_t master_seed[128];
-    ProKey_Generate(master_seed, KEY_1024_BIT);
-    // Übergabe an asymmetrische Key-Gen (RSA/ECC)...
-}
-
-```
-
-<div style="page-break-after: always;"></div>
-
-## 4. Sicherheitshinweise
-
-1. **Speicherbereinigung:** ProKey liefert "Geheimnisse". Löschen Sie den Puffer nach der Verwendung (`memset` oder `SecureZeroMemory`), um RAM-Dumps zu verhindern.
-2. **Puffer-Größe:** ProKey prüft nicht die Länge des übergebenen Arrays. Stellen Sie sicher, dass der Puffer groß genug für die angeforderte Bit-Länge ist.
-3. **Boot-Time:** Auf Systemen ohne dedizierten Hardware-RNG benötigt ProKey eine kurze Sammelphase für Jitter-Entropie beim Systemstart.
+* **Memory Sanitization:** Nach der Verwendung der generierten Daten sollte der Puffer umgehend sicher gelöscht werden (`SecureZeroMemory` / `memset`).
+* **Plattform-Agnotizismus:** ProKey abstrahiert die plattformspezifischen Aufrufe (Windows/POSIX) und bietet eine einheitliche API für industrielle Applikationen.
 
 ---
 
