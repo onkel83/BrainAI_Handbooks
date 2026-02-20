@@ -18,33 +18,52 @@ jobs:
         with:
           node-version: '20'
 
-      - name: Install Industrial Rendering Stack
+      - name: Install Rendering Tools
         run: |
           npm install -g md-to-pdf
-          # Wir stellen sicher, dass alle Abhängigkeiten für Chromium da sind
+          # Chromium Abhängigkeiten für Ubuntu
           sudo apt-get update
-          sudo apt-get install -y libgbm-dev
+          sudo apt-get install -y libgbm-dev libasound2
 
       - name: Create Build Directory
         run: mkdir -p build
 
       - name: Render Industrial PDFs
         run: |
+          # Wir bauen eine temporäre Config-Datei im Runner
+          cat <<EOF > runner-config.js
+          module.exports = {
+            stylesheet: './docs/style.css',
+            pdf_options: {
+              format: 'A4',
+              margin: '20mm',
+              printBackground: true
+            },
+            launch_options: {
+              args: ['--no-sandbox', '--disable-setuid-sandbox']
+            }
+          };
+          EOF
+
           for f in docs/*.md; do
             filename=$(basename "$f" .md)
             echo "Rendering $filename..."
             
-            # Wir führen md-to-pdf ohne das problematische Output-Flag aus
-            # Das Tool generiert dann automatisch docs/filename.pdf
-            md-to-pdf "$f" --config-file docs/config.js
+            # Ausführung mit der temporären Runner-Config
+            md-to-pdf "$f" --config-file runner-config.js
             
-            # Wir verschieben das Resultat in den Build-Ordner
+            # Verschieben in den Build-Ordner
             if [ -f "docs/${filename}.pdf" ]; then
               mv "docs/${filename}.pdf" "build/"
-              echo "Successfully moved ${filename}.pdf to build/"
+              echo "Success: build/${filename}.pdf"
             else
-              echo "Error: ${filename}.pdf was not generated."
-              exit 1
+              # Fallback: Manchmal generiert md-to-pdf die Datei im Root
+              if [ -f "${filename}.pdf" ]; then
+                mv "${filename}.pdf" "build/"
+              else
+                echo "Error: PDF not found for $filename"
+                exit 1
+              fi
             fi
           done
 
