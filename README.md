@@ -1,9 +1,7 @@
-# BrainAI Architecture & ProEDC Reference
+| BrainAI UG (haftungsbeschränkt) | **Handbücher** | 🟢 **PUBLIC CLASSIFICATION** |
+| :--- | :---: | ---: |
+| Core Architecture & Development | Whitepaper / Konzept | Access Level: Public / Beta |
 
-> **Architect:** BrainAI / Sascha Alexander Köhne
-> **System:** Ring 0 Deterministic Cryptography & Neuro-Symbolic AI
-
----
 
 ## ⚠️ SECURITY & EXPORT NOTICE
 
@@ -41,5 +39,8 @@ Due to the classification of this technology under **Dual-Use Export Regulations
 **Initialization Sequence Started.** Documentation modules are being decrypted and uploaded sequentially.
 Check back for updates.
 
-**Contact for KYC & Early Access:** </br>
-[Sascha A. Köhne](https://www.linkedin.com/in/sascha-alexander-k%C3%B6hne-7202a13a0/)
+---
+
+| © 2026 Sascha Köhne | ✉️ **Contact for KYC & Early Access:** [koehne83@googlemail.com](mailto:koehne83@googlemail.com) | 🛡️ **ProHash-Verified** |
+| :--- | :---: | ---: |
+| System Architect | BrainAI UG (haftungsbeschränkt) | Deterministische Integrität |
