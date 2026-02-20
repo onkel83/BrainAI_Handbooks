@@ -13,16 +13,30 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v4
 
+      - name: Install Industrial Rendering Stack
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y wkhtmltopdf
+          pip install grip
+
       - name: Create Build Directory
         run: mkdir -p build
 
-      - name: Convert MD to PDF (HTML-Chromium Engine)
-        uses: pypanda/markdown-to-pdf-action@v1.1
-        with:
-          input_dir: docs
-          output_dir: build
-          # Hier können wir CSS-ähnliche Parameter mitgeben
-          pdf_options: '{"format": "A4", "margin": {"top": "20mm", "bottom": "20mm", "left": "20mm", "right": "20mm"}, "printBackground": true}'
+      - name: Render MD to Industrial PDF
+        run: |
+          for f in docs/*.md; do
+            filename=$(basename "$f" .md)
+            echo "Processing $filename..."
+            # 1. MD zu HTML (GitHub Style)
+            grip "$f" --export "build/${filename}.html"
+            # 2. HTML zu PDF (Professional Layout)
+            wkhtmltopdf --enable-local-file-access \
+                        --page-size A4 \
+                        --margin-top 20mm \
+                        --margin-bottom 20mm \
+                        --footer-right "[page] / [topage]" \
+                        "build/${filename}.html" "build/${filename}.pdf"
+          done
 
       - name: Archive Production Docs
         uses: actions/upload-artifact@v4
