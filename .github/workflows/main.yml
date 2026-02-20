@@ -64,6 +64,10 @@ jobs:
                 DOC_TITLE="Hardware Entropy SDK Manual"
                 DOC_SUBTITLE="TRNG & QUANTUM-RESISTANT ENTROPY"
                 ;;
+                "ProHash") 
+                DOC_TITLE="Software Hash API Reference"
+                DOC_SUBTITLE="DETERMINISTIC DATA INTEGRITY"
+                ;;
               *) 
                 DOC_TITLE="Technical Documentation"
                 DOC_SUBTITLE="PROEDC INDUSTRIAL SUITE"
