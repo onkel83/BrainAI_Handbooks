@@ -1,18 +1,10 @@
 name: BrainAI Industrial PDF Build
 
 on: 
-  # Automatischer Trigger bei Änderungen im docs-Ordner
   push:
     paths:
       - 'docs/**'
-  
-  # MANUELLER TRIGGER (Der "Handstart"-Button)
   workflow_dispatch:
-    inputs:
-      reason:
-        description: 'Grund für den manuellen Build (optional)'
-        required: false
-        default: 'Manueller Re-Build der Dokumentation'
 
 jobs:
   build-pdfs:
@@ -21,17 +13,23 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v4
 
-      - name: Render All MD to PDF
+      - name: Create Build Directory
+        run: mkdir -p build
+
+      - name: Render All MD to PDF (Loop Pattern)
         uses: docker://pandoc/latex:latest
         with:
+          # Wir nutzen ein Shell-Script als Entrypoint, um die Wildcards korrekt zu verarbeiten
           args: >-
-            --standalone
-            --from=markdown
-            --to=pdf
-            --pdf-engine=xelatex
-            --resource-path=docs
-            --output-dir=build
-            docs/*.md
+            /bin/sh -c "for f in docs/*.md; do 
+              filename=$(basename \"$f\" .md);
+              echo 'Processing $filename...';
+              pandoc \"$f\" 
+              --standalone 
+              --pdf-engine=xelatex 
+              --resource-path=docs 
+              -o \"build/${filename}.pdf\"; 
+            done"
 
       - name: Archive Production Docs
         uses: actions/upload-artifact@v4
