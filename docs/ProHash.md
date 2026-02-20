@@ -125,3 +125,6 @@ void calculate_file_integrity(const char* filepath) {
 
 ---
 
+| © 2026 Sascha Köhne | ✉️ **Contact:** [koehne83@googlemail.com](mailto:koehne83@googlemail.com) | 🛡️ **ProHash-Verified** |
+| --- | --- | --- |
+| CEO / System Architect | BrainAI UG (haftungsbeschränkt) | We don't need **BRUTEFORCE**, we knows **PHYSICS** |
