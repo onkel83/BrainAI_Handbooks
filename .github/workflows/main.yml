@@ -18,19 +18,19 @@ jobs:
         with:
           node-version: '20'
 
-      - name: Install Rendering Tools
+      - name: Install Industrial Rendering Stack
         run: |
           npm install -g md-to-pdf
-          # Chromium Abhängigkeiten für Ubuntu
+          # Wir installieren nur die absolut notwendigen Bibliotheken für Chromium
           sudo apt-get update
-          sudo apt-get install -y libgbm-dev libasound2
+          sudo apt-get install -y libgbm1 libasound2t64 || sudo apt-get install -y libasound2
 
       - name: Create Build Directory
         run: mkdir -p build
 
       - name: Render Industrial PDFs
         run: |
-          # Wir bauen eine temporäre Config-Datei im Runner
+          # Dynamische Erstellung der stabilen Runner-Config
           cat <<EOF > runner-config.js
           module.exports = {
             stylesheet: './docs/style.css',
@@ -40,31 +40,29 @@ jobs:
               printBackground: true
             },
             launch_options: {
-              args: ['--no-sandbox', '--disable-setuid-sandbox']
+              executablePath: '/usr/bin/google-chrome',
+              args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-gpu']
             }
           };
           EOF
 
           for f in docs/*.md; do
             filename=$(basename "$f" .md)
-            echo "Rendering $filename..."
+            echo "Processing: $filename"
             
-            # Ausführung mit der temporären Runner-Config
-            md-to-pdf "$f" --config-file runner-config.js
+            # Rendering-Prozess
+            md-to-pdf "$f" --config-file runner-config.js || true
             
-            # Verschieben in den Build-Ordner
+            # Flexible Pfad-Suche für das Resultat
             if [ -f "docs/${filename}.pdf" ]; then
               mv "docs/${filename}.pdf" "build/"
-              echo "Success: build/${filename}.pdf"
+            elif [ -f "${filename}.pdf" ]; then
+              mv "${filename}.pdf" "build/"
             else
-              # Fallback: Manchmal generiert md-to-pdf die Datei im Root
-              if [ -f "${filename}.pdf" ]; then
-                mv "${filename}.pdf" "build/"
-              else
-                echo "Error: PDF not found for $filename"
-                exit 1
-              fi
+              echo "Build failed for $filename"
+              exit 1
             fi
+            echo "Success: build/${filename}.pdf"
           done
 
       - name: Archive Production Docs
