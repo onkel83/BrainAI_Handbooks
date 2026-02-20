@@ -27,8 +27,7 @@ jobs:
               pandoc \"$f\" \
               --standalone \
               --pdf-engine=lualatex \
-              -V mainfont='DejaVu Sans' \
-              -V monofont='DejaVu Sans Mono' \
+              -V geometry:margin=1in \
               --resource-path=docs \
               -o \"build/${filename}.pdf\"; 
             done"
