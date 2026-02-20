@@ -1,27 +1,30 @@
-<div style="height: 80vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; border: 2px solid #333; margin-bottom: 50px;">
-  <h1 style="font-size: 48px; margin-bottom: 0;">ProEDC Industrial Suite</h1>
-  <h2 style="font-size: 24px; color: #666;">SERVER INTEGRATION & HARDENING</h2>
-  <div style="margin-top: 100px;">
-    <strong>BrainAI Engineering Division</strong><br>
-    Veröffentlicht: 2026 | Status: Public / Beta
+<div style="height: 85vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; font-family: 'Inter', sans-serif;">
+  <h1 style="font-size: 50px; margin-bottom: 0; letter-spacing: -1px;">ProEDC Industrial Suite</h1>
+  <p style="font-size: 22px; color: #555; margin-top: 10px;">Enterprise Defense Core | Engineering Division</p>
+  <div style="margin-top: 120px; border-top: 1px solid #ddd; width: 60%; padding-top: 20px;">
+    <strong>PRODUKT-DOKUMENTATION</strong><br>
+    <span style="color: #666;">BrainAI UG (haftungsbeschränkt)</span>
   </div>
 </div>
 
 <div style="page-break-after: always;"></div>
 
----
-
-| BrainAI UG (haftungsbeschränkt) | **Legal & Compliance** | 🔴 **CONFIDENTIAL / PROPRIETARY** |
-| --- | --- | --- |
-| Engineering Division | Master License Agreement (EULA) | Dokument-ID: L-EULA-2026-V1 |
+| BrainAI UG (haftungsbeschränkt) | **PROEDC INDUSTRIAL** | 🟢 **PUBLIC CLASSIFICATION** |
+| :--- | :---: | ---: |
+| Core Architecture & Development | **DOKUMENT-TYP: HIER EINSETZEN** | Access Level: Public / Beta |
 
 ---
 
-<div align="center">
-🌐 <strong>Select Language / Sprache wählen:</strong> 
+## Revisionshistorie / Revision History
 
+| Version | Datum | Autor | Status | Beschreibung |
+| :--- | :--- | :--- | :--- | :--- |
+| 0.9 | 15.01.2026 | S. Köhne | Draft | Initialer Entwurf (BioEDC Architektur) |
+| 1.0 | 20.02.2026 | S. Köhne | Release | Rebranding auf ProEDC & Industrial Hardening |
 
+<div style="page-break-after: always;"></div>
 
+---
 
 <a href="#de_de">🇩🇪 Deutsch (de_de)</a> | <a href="#int_eng">🇬🇧 English (int_eng)</a>
 </div>
@@ -114,7 +117,4 @@ The integrity of this software is continuously monitored by the **ProTU Framewor
 | --- | --- | --- |
 | CEO / System Architect | BrainAI UG (haftungsbeschränkt) | Trust the Physics. Verify the Math. |
 
----
-3. Das Rebranding von "Bio" zu **Pro** ist nun auch rechtlich in der Dokumentation vollzogen.
 
-Soll ich als Nächstes das **ProKey-Datenblatt** (Hardware-Zufall) oder die **ProHash-Spezifikation** (Integrität) in diesem Stil aufbereiten?
