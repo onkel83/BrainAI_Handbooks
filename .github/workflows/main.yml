@@ -73,10 +73,8 @@ jobs:
             # 3. Temporäre Arbeitskopie erstellen (Original bleibt sauber)
             cp "$f" "working_${filename}.md"
 
-            # 4. Platzhalter im Markdown ersetzen
-            # Wir ersetzen 'HIER EINSETZEN' in der Tabelle und den Untertitel auf dem Cover# Wir suchen nach 'DOKUMENT' gefolgt von optionalem Bindestrich, 
-            # dann 'TYP', Doppelpunkt und 'HIER EINSETZEN' (egal wie viele Leerzeichen dazwischen sind)
-            sed -i -E "s/DOKUMENT-?TYP:\s*HIER EINSETZEN/$DOC_TITLE/gI" "working_${filename}.md"
+            # 4. Platzhalter im Markdown ersetzen# Dieser Befehl sucht nach DOKUMENT-TYP und ersetzt ALLES bis zum nächsten Tabellen-Trenner |
+sed -i -E "s/(DOKUMENT-?TYP:)[^|]*/\1 $DOC_TITLE /gI" "working_${filename}.md"
             
             # Das gleiche für den Untertitel (Engineering Division etc.)
             sed -i -E "s/ENTERPRISE DEFENSE CORE\s*\|\s*ENGINEERING DIVISION/$DOC_SUBTITLE/gI" "working_${filename}.md"
