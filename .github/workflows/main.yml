@@ -16,21 +16,13 @@ jobs:
       - name: Create Build Directory
         run: mkdir -p build
 
-      - name: Render All MD to PDF
-        uses: docker://pandoc/latex:latest
+      - name: Convert MD to PDF (HTML-Chromium Engine)
+        uses: pypanda/markdown-to-pdf-action@v1.1
         with:
-          entrypoint: /bin/sh
-          args: >-
-            -c "for f in docs/*.md; do 
-              filename=$(basename \"$f\" .md);
-              echo \"Rendering $filename...\";
-              pandoc \"$f\" \
-              --standalone \
-              --pdf-engine=lualatex \
-              -V geometry:margin=1in \
-              --resource-path=docs \
-              -o \"build/${filename}.pdf\"; 
-            done"
+          input_dir: docs
+          output_dir: build
+          # Hier können wir CSS-ähnliche Parameter mitgeben
+          pdf_options: '{"format": "A4", "margin": {"top": "20mm", "bottom": "20mm", "left": "20mm", "right": "20mm"}, "printBackground": true}'
 
       - name: Archive Production Docs
         uses: actions/upload-artifact@v4
