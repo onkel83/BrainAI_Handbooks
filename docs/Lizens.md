@@ -1,3 +1,16 @@
+<div style="height: 80vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; border: 2px solid #333; margin-bottom: 50px;">
+  <h1 style="font-size: 48px; margin-bottom: 0;">ProEDC Industrial Suite</h1>
+  <h2 style="font-size: 24px; color: #666;">SERVER INTEGRATION & HARDENING</h2>
+  <div style="margin-top: 100px;">
+    <strong>BrainAI Engineering Division</strong><br>
+    Veröffentlicht: 2026 | Status: Public / Beta
+  </div>
+</div>
+
+<div style="page-break-after: always;"></div>
+
+---
+
 | BrainAI UG (haftungsbeschränkt) | **Legal & Compliance** | 🔴 **CONFIDENTIAL / PROPRIETARY** |
 | --- | --- | --- |
 | Engineering Division | Master License Agreement (EULA) | Dokument-ID: L-EULA-2026-V1 |
