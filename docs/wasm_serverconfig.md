@@ -23,6 +23,7 @@
 | 1.0 | 20.02.2026 | S. Köhne | Release | Rebranding auf ProEDC & Industrial Hardening |
 
 <div style="page-break-after: always;"></div>
+
 ---
 
 <div align="center">
