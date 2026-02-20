@@ -1,8 +1,18 @@
 name: BrainAI Industrial PDF Build
+
 on: 
+  # Automatischer Trigger bei Änderungen im docs-Ordner
   push:
     paths:
-      - 'docs/**' # Triggert nur, wenn sich in docs etwas ändert
+      - 'docs/**'
+  
+  # MANUELLER TRIGGER (Der "Handstart"-Button)
+  workflow_dispatch:
+    inputs:
+      reason:
+        description: 'Grund für den manuellen Build (optional)'
+        required: false
+        default: 'Manueller Re-Build der Dokumentation'
 
 jobs:
   build-pdfs:
