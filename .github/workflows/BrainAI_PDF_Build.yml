@@ -4,7 +4,8 @@ on:
   push:
     paths:
       - 'docs/**'
-  workflow_dispatch:
+  # DAS HIER ist der manuelle Auslöser (wird sichtbar, sobald das YAML gültig ist)
+  workflow_dispatch: 
 
 jobs:
   build-pdfs:
@@ -31,23 +32,21 @@ jobs:
 
       - name: Render Industrial PDFs
         run: |
-          # 1. Stabile Grund-Config für Puppeteer/Chromium
-          cat <<EOF > runner-config.js
-          module.exports = {
-            stylesheet: './docs/style.css',
-            pdf_options: {
-              format: 'A4',
-              margin: '20mm',
-              printBackground: true
-            },
-            launch_options: {
-              args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-gpu']
-            }
-          };
-EOF
+          # 1. Stabile Grund-Config (YAML-sicher via echo generiert)
+          echo "module.exports = {" > runner-config.js
+          echo "  stylesheet: './docs/style.css'," >> runner-config.js
+          echo "  pdf_options: {" >> runner-config.js
+          echo "    format: 'A4'," >> runner-config.js
+          echo "    margin: '20mm'," >> runner-config.js
+          echo "    printBackground: true" >> runner-config.js
+          echo "  }," >> runner-config.js
+          echo "  launch_options: {" >> runner-config.js
+          echo "    args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-gpu']" >> runner-config.js
+          echo "  }" >> runner-config.js
+          echo "};" >> runner-config.js
 
           for f in docs/*.md; do
-            # Falls der docs/ Ordner leer ist, Schleife abbrechen
+            # Überspringen, falls keine MD-Dateien existieren
             [ -e "$f" ] || continue
             
             filename=$(basename "$f" .md)
@@ -130,26 +129,24 @@ EOF
 
             echo "Assembling [$LANG]: $filename"
 
-            # 4. Den Header dynamisch generieren (Cover + Tabelle - Zweisprachig)
-            # WICHTIG: Das EOF am Ende darf KEINE Leerzeichen davor haben!
-            cat <<EOF > header.tmp
-            <div style="height: 85vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; font-family: 'Inter', sans-serif;">
-              <h1 style="font-size: 50px; margin-bottom: 0; letter-spacing: -1px;">ProSuite Industrial</h1>
-              <p style="font-size: 22px; color: #555; margin-top: 10px;">$DOC_SUBTITLE</p>
-              <div style="margin-top: 120px; border-top: 1px solid #ddd; width: 60%; padding-top: 20px;">
-                <strong>$HEADER_PROD</strong><br>
-                <span style="color: #666;">BrainAI UG (haftungsbeschränkt)</span>
-              </div>
-            </div>
-
-            <div style="page-break-after: always;"></div>
-
-            | BrainAI UG (haftungsbeschränkt) | **PROSUITE INDUSTRIAL** | 🟢 **$CLASSIFICATION** |
-            | :--- | :---: | ---: |
-            | Core Architecture & Development | **$DOC_TITLE** | $ACCESS_LEVEL |
-
-            ---
-EOF
+            # 4. Den Header dynamisch generieren (YAML-sicher via echo)
+            echo "<div style=\"height: 85vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; font-family: 'Inter', sans-serif;\">" > header.tmp
+            echo "  <h1 style=\"font-size: 50px; margin-bottom: 0; letter-spacing: -1px;\">ProSuite Industrial</h1>" >> header.tmp
+            echo "  <p style=\"font-size: 22px; color: #555; margin-top: 10px;\">${DOC_SUBTITLE}</p>" >> header.tmp
+            echo "  <div style=\"margin-top: 120px; border-top: 1px solid #ddd; width: 60%; padding-top: 20px;\">" >> header.tmp
+            echo "    <strong>${HEADER_PROD}</strong><br>" >> header.tmp
+            echo "    <span style=\"color: #666;\">BrainAI UG (haftungsbeschränkt)</span>" >> header.tmp
+            echo "  </div>" >> header.tmp
+            echo "</div>" >> header.tmp
+            echo "" >> header.tmp
+            echo "<div style=\"page-break-after: always;\"></div>" >> header.tmp
+            echo "" >> header.tmp
+            echo "| BrainAI UG (haftungsbeschränkt) | **PROSUITE INDUSTRIAL** | 🟢 **${CLASSIFICATION}** |" >> header.tmp
+            echo "| :--- | :---: | ---: |" >> header.tmp
+            echo "| Core Architecture & Development | **${DOC_TITLE}** | ${ACCESS_LEVEL} |" >> header.tmp
+            echo "" >> header.tmp
+            echo "---" >> header.tmp
+            echo "" >> header.tmp
 
             # 5. Zusammenkleben: Header + Original-Inhalt
             cat header.tmp "$f" > "working_${filename}.md"
