@@ -44,9 +44,12 @@ jobs:
               args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-gpu']
             }
           };
-          EOF
+EOF
 
           for f in docs/*.md; do
+            # Falls der docs/ Ordner leer ist, Schleife abbrechen
+            [ -e "$f" ] || continue
+            
             filename=$(basename "$f" .md)
             
             # Wir ignorieren die README.md
@@ -128,6 +131,7 @@ jobs:
             echo "Assembling [$LANG]: $filename"
 
             # 4. Den Header dynamisch generieren (Cover + Tabelle - Zweisprachig)
+            # WICHTIG: Das EOF am Ende darf KEINE Leerzeichen davor haben!
             cat <<EOF > header.tmp
             <div style="height: 85vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; font-family: 'Inter', sans-serif;">
               <h1 style="font-size: 50px; margin-bottom: 0; letter-spacing: -1px;">ProSuite Industrial</h1>
@@ -145,8 +149,7 @@ jobs:
             | Core Architecture & Development | **$DOC_TITLE** | $ACCESS_LEVEL |
 
             ---
-
-            EOF
+EOF
 
             # 5. Zusammenkleben: Header + Original-Inhalt
             cat header.tmp "$f" > "working_${filename}.md"
