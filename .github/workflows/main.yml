@@ -24,8 +24,10 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y libgbm1 libasound2t64 || sudo apt-get install -y libasound2
 
-      - name: Create Build Directory
-        run: mkdir -p build
+      - name: Create Build Directories
+        run: |
+          mkdir -p build/de
+          mkdir -p build/en
 
       - name: Render Industrial PDFs
         run: |
@@ -50,71 +52,127 @@ jobs:
             # Wir ignorieren die README.md
             if [ "$filename" = "README" ]; then continue; fi
 
-            # 2. Titel-Zuweisung (Zentral gesteuert)
+            # 2. Spracherkennung und Basis-Variablen initialisieren
+            LANG="de" # Fallback auf Deutsch
+            HEADER_PROD="PRODUKT-DOKUMENTATION"
+            CLASSIFICATION="ÖFFENTLICHE KLASSIFIZIERUNG"
+            ACCESS_LEVEL="Zugriffsstufe: Öffentlich / Beta"
+
+            if [[ "$filename" == *"_Int"* ]] || [[ "$filename" == *"_int"* ]] || [[ "$filename" == *"wasm_serverconfig"* ]]; then
+              LANG="en"
+              HEADER_PROD="PRODUCT DOCUMENTATION"
+              CLASSIFICATION="PUBLIC CLASSIFICATION"
+              ACCESS_LEVEL="Access Level: Public / Beta"
+            fi
+
+            # 3. Präzises Title-Mapping (Zentral gesteuert)
             case "$filename" in
-              "Lizenz") 
+              *Lizenz*) 
                 DOC_TITLE="Master License Agreement (EULA)"
                 DOC_SUBTITLE="LEGAL & COMPLIANCE SPECIFICATION"
                 ;;
-              "wasm_serverconfig") 
+              *wasm_serverconfig*) 
                 DOC_TITLE="Server Integration & Hardening Guide"
                 DOC_SUBTITLE="WASM & CLOUD DEPLOYMENT SPEC"
                 ;;
-              "ProKey") 
-                DOC_TITLE="Hardware Entropy SDK Manual"
-                DOC_SUBTITLE="TRNG & QUANTUM-RESISTANT ENTROPY"
+              *ProKey_CLI_Hand*) 
+                DOC_TITLE=$([ "$LANG" = "de" ] && echo "ProKey Kommandozeilen-Referenz" || echo "ProKey Command Line Reference")
+                DOC_SUBTITLE="CLI & AUTOMATION"
                 ;;
-                "ProHash") 
-                DOC_TITLE="Software Hash API Reference"
-                DOC_SUBTITLE="DETERMINISTIC DATA INTEGRITY"
+              *ProKey_Hand*) 
+                DOC_TITLE=$([ "$LANG" = "de" ] && echo "ProKey Integrations-Handbuch" || echo "ProKey Integration Guide")
+                DOC_SUBTITLE="API & WRAPPER SUITE"
                 ;;
-                "ProHash_Hardware") 
-                DOC_TITLE="FPGA & ASIC IP Core"
+              *ProHash_CLI_Hand*) 
+                DOC_TITLE=$([ "$LANG" = "de" ] && echo "ProHash Kommandozeilen-Referenz" || echo "ProHash Command Line Reference")
+                DOC_SUBTITLE="CLI & AUTOMATION"
+                ;;
+              *ProHash_Hand*) 
+                DOC_TITLE=$([ "$LANG" = "de" ] && echo "ProHash Integrations-Handbuch" || echo "ProHash Integration Guide")
+                DOC_SUBTITLE="API & WRAPPER SUITE"
+                ;;
+              *ProHash_Hardware*) 
+                DOC_TITLE="FPGA & ASIC IP Core Guide"
                 DOC_SUBTITLE="HARDWARE ACCELERATED HASHING"
+                ;;
+              *ProED_CLI_Hand*) 
+                DOC_TITLE=$([ "$LANG" = "de" ] && echo "ProED Engine CLI Referenz" || echo "ProED Engine CLI Reference")
+                DOC_SUBTITLE="KERNEL & USERSPACE ENCRYPTION"
+                ;;
+              *ProED_Hand*) 
+                DOC_TITLE=$([ "$LANG" = "de" ] && echo "ProED Engine Handbuch" || echo "ProED Engine Manual")
+                DOC_SUBTITLE="CORE ARCHITECTURE"
+                ;;
+              *ProEDC_CLI_Editions*) 
+                DOC_TITLE="ProEDC Editionen & Lizenzen"
+                DOC_SUBTITLE="OVERVIEW & FEATURE MATRIX"
+                ;;
+              *ProEDC_CLI_Hand*) 
+                DOC_TITLE=$([ "$LANG" = "de" ] && echo "ProEDC CLI Referenz" || echo "ProEDC CLI Reference")
+                DOC_SUBTITLE="INDUSTRIAL ENCRYPTION SUITE"
+                ;;
+              *ProEDC_Hand*) 
+                DOC_TITLE=$([ "$LANG" = "de" ] && echo "ProEDC System Integrations-Handbuch" || echo "ProEDC System Integration Guide")
+                DOC_SUBTITLE="INDUSTRIAL ENCRYPTION SUITE"
+                ;;
+              *ProChat_Hand*) 
+                DOC_TITLE=$([ "$LANG" = "de" ] && echo "ProChat System-Handbuch" || echo "ProChat System Manual")
+                DOC_SUBTITLE="ZERO-TRUST COMMUNICATION"
                 ;;
               *) 
                 DOC_TITLE="Technical Documentation"
-                DOC_SUBTITLE="PROEDC INDUSTRIAL SUITE"
+                DOC_SUBTITLE="PROSUITE INDUSTRIAL"
                 ;;
             esac
 
-            echo "Assembling: $filename"
+            echo "Assembling [$LANG]: $filename"
 
-            # 3. Den Header dynamisch generieren (Cover + Tabelle)
+            # 4. Den Header dynamisch generieren (Cover + Tabelle - Zweisprachig)
             cat <<EOF > header.tmp
-          <div style="height: 85vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; font-family: 'Inter', sans-serif;">
-            <h1 style="font-size: 50px; margin-bottom: 0; letter-spacing: -1px;">ProEDC Industrial Suite</h1>
-            <p style="font-size: 22px; color: #555; margin-top: 10px;">$DOC_SUBTITLE</p>
-            <div style="margin-top: 120px; border-top: 1px solid #ddd; width: 60%; padding-top: 20px;">
-              <strong>PRODUKT-DOKUMENTATION</strong><br>
-              <span style="color: #666;">BrainAI UG (haftungsbeschränkt)</span>
+            <div style="height: 85vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; font-family: 'Inter', sans-serif;">
+              <h1 style="font-size: 50px; margin-bottom: 0; letter-spacing: -1px;">ProSuite Industrial</h1>
+              <p style="font-size: 22px; color: #555; margin-top: 10px;">$DOC_SUBTITLE</p>
+              <div style="margin-top: 120px; border-top: 1px solid #ddd; width: 60%; padding-top: 20px;">
+                <strong>$HEADER_PROD</strong><br>
+                <span style="color: #666;">BrainAI UG (haftungsbeschränkt)</span>
+              </div>
             </div>
-          </div>
 
-          <div style="page-break-after: always;"></div>
+            <div style="page-break-after: always;"></div>
 
-          | BrainAI UG (haftungsbeschränkt) | **PROEDC INDUSTRIAL** | 🟢 **PUBLIC CLASSIFICATION** |
-          | :--- | :---: | ---: |
-          | Core Architecture & Development | **$DOC_TITLE** | Access Level: Public / Beta |
+            | BrainAI UG (haftungsbeschränkt) | **PROSUITE INDUSTRIAL** | 🟢 **$CLASSIFICATION** |
+            | :--- | :---: | ---: |
+            | Core Architecture & Development | **$DOC_TITLE** | $ACCESS_LEVEL |
 
-          ---
+            ---
 
-          EOF
+            EOF
 
-            # 4. Zusammenkleben: Header + Original-Inhalt
+            # 5. Zusammenkleben: Header + Original-Inhalt
             cat header.tmp "$f" > "working_${filename}.md"
 
-            # 5. Rendering
+            # 6. Rendering
             md-to-pdf "working_${filename}.md" --config-file runner-config.js
             
-            # 6. Aufräumen
-            mv "working_${filename}.pdf" "build/${filename}.pdf"
+            # 7. Aufräumen & Sortieren
+            if [ "$LANG" = "de" ]; then
+                mv "working_${filename}.pdf" "build/de/${filename}.pdf"
+            else
+                mv "working_${filename}.pdf" "build/en/${filename}.pdf"
+            fi
+            
             rm "working_${filename}.md"
             rm header.tmp
           done
 
-      - name: Archive Production Docs
+      - name: Archive German Docs
         uses: actions/upload-artifact@v4
         with:
-          name: ProEDC-Manuals-Final
-          path: build/*.pdf
+          name: ProSuite-Manuals-DE
+          path: build/de/*.pdf
+
+      - name: Archive International Docs
+        uses: actions/upload-artifact@v4
+        with:
+          name: ProSuite-Manuals-EN
+          path: build/en/*.pdf
