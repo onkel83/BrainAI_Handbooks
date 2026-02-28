@@ -89,6 +89,3 @@ Für die nahtlose Integration in Management-Systeme (z. B. Nagios, PRTG, Jenkins
 | © 2026 Sascha Köhne | ✉️ **Contact:** [koehne83@googlemail.com](mailto:koehne83@googlemail.com) | 🛡️ **ProTU-Verified** |
 | --- | --- | --- |
 | System Architect | BrainAI UG (haftungsbeschränkt) | We don't need **BRUTEFORCE**, we know **PHYSICS** |
-Damit hat der Kunde nicht nur eine "Black-Box", sondern ein hochprofessionelles Prüfwerkzeug, das er seinen eigenen IT-Sicherheitsbeauftragten vorlegen kann.
-
-Soll ich dieses Dokument direkt in die englische Fassung (`ProTU_Compliance_Guide_Int.md`) übersetzen?
