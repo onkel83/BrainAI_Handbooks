@@ -36,8 +36,8 @@ Aufgrund der Einstufung dieser Technologie unter die **Dual-Use-Exportbestimmung
 ### 🛡️ Audit, Compliance & Verifizierung
 
 * **ProTU (Process Trust Unit)**
-* [Compliance & Verification Handbuch](./docs/ProTU_Compliance_Handbuch_Ger.md)
-* [Test Coverage Specification](./docs/ProTU_Test_Specification_Ger.md)
+* [Compliance & Verification Handbuch](./docs/ProTU_Handbuch_Ger.md)
+* [Test Coverage Specification](./docs/ProTU_Test_Coverage_Ger.md)
 
 
 
@@ -114,8 +114,8 @@ The underlying source code of **ProEDC** and **ProTU** operates at Ring 0 level 
 ### 🛡️ Audit, Compliance & Verification
 
 * **ProTU (Process Trust Unit)**
-* [Compliance & Verification Guide](./docs/ProTU_Compliance_Guide_Int.md)
-* [Test Coverage Specification](./docs/ProTU_Test_Specification_Int.md)
+* [Compliance & Verification Guide](./docs/ProTU_Handbook_Int.md)
+* [Test Coverage Specification](./docs/ProTU_Test_Coverage_Int.md)
 
 
 
