@@ -1,6 +1,6 @@
 # 🛡️ ProSuite Industrial
 
-**Enterprise Cryptography & Zero-Trust Architecture** *by BrainAI UG (haftungsbeschränkt)*
+**Enterprise Cryptography & Zero-Trust Architecture** *by BrainAI Inhaber : Sascha Alexander Köhne*
 
 Welcome to the official documentation and source code repository of **ProSuite Industrial**. The ProSuite is a modular, deterministic, and highly secure cryptographic ecosystem designed specifically for OT (Operational Technology) environments, Cloud infrastructures, and Zero-Trust networks.
 
@@ -70,4 +70,4 @@ For further information on integrating the modules into your software stack, ple
 
 | © 2026 Sascha Köhne | ✉️ **Contact:** koehne83@googlemail.com | 🛡️ **ProTU-Verified** |
 | --- | --- | --- |
-| CEO / System Architect | BrainAI UG (haftungsbeschränkt) | We don't need **BRUTEFORCE**, we know **PHYSICS** |
+| CEO / System Architect | BrainAI Inhaber : Sascha Alexander Köhne | We don't need **BRUTEFORCE**, we know **PHYSICS** |

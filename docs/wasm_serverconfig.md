@@ -572,4 +572,4 @@ CMD ["nginx", "-g", "daemon off;"]
 
 | © 2026 Sascha Köhne | ✉️ **Contact for KYC & Early Access:** [koehne83@googlemail.com](mailto:koehne83@googlemail.com) | 🛡️ **ProHash-Verified** |
 | --- | --- | --- |
-| System Architect | BrainAI UG (haftungsbeschränkt) | Deterministische Integrität |
+| System Architect | BrainAI Inhaber : Sascha Alexander Köhne | Deterministische Integrität |
