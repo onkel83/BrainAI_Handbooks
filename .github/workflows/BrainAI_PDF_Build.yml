@@ -142,7 +142,7 @@ jobs:
             echo "" >> header.tmp
             echo "<div style=\"page-break-after: always;\"></div>" >> header.tmp
             echo "" >> header.tmp
-            echo "| BrainAI UG (haftungsbeschränkt) | **PROSUITE INDUSTRIAL** | 🟢 **${CLASSIFICATION}** |" >> header.tmp
+            echo "| BrainAI Inhaber: Sascha Alexander Köhne | **PROSUITE INDUSTRIAL** | 🟢 **${CLASSIFICATION}** |" >> header.tmp
             echo "| :--- | :---: | ---: |" >> header.tmp
             echo "| Core Architecture & Development | **${DOC_TITLE}** | ${ACCESS_LEVEL} |" >> header.tmp
             echo "" >> header.tmp
