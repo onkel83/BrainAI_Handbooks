@@ -132,7 +132,7 @@ jobs:
             # 4. Den Header dynamisch generieren (YAML-sicher via echo)
             echo "<div style=\"height: 85vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; font-family: 'Inter', sans-serif;\">" > header.tmp
             # Bild zur Laufzeit in Base64 umwandeln (ohne Zeilenumbrüche)
-            LOGO_BASE64=$(base64 -w 0 docs/logo.png)
+            LOGO_BASE64=$(base64 -w 0 docs/logo.png || true)
             # Dynamisch in den HTML-Header injizieren
             echo "  <img src=\"data:image/png;base64,${LOGO_BASE64}\" alt=\"BrainAI Logo\" style=\"display: block; width: 250px; height: auto; flex-shrink: 0; object-fit: contain; margin: 0 auto 40px auto;\" />" >> header.tmp
             echo "  <h1 style=\"font-size: 50px; margin-bottom: 0; letter-spacing: -1px;\">ProSuite Industrial</h1>" >> header.tmp
