@@ -1,4 +1,4 @@
-| BrainAI Inhaber : Sascha Alexander Köhne | **Handbücher** | 🟢 **PUBLIC CLASSIFICATION** |
+| BrainAI (Inhaber : Sascha Alexander Köhne) | **Handbücher** / **Handbooks** | 🟢 **PUBLIC CLASSIFICATION** |
 | --- | --- | --- |
 | Core Architecture & Development | Whitepaper / Konzept | Access Level: Public / Beta |
 
